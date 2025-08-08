@@ -10,7 +10,6 @@ This repository contains a fullstack Pokémon application, with a [NestJS](https
 - [Setup Instructions](#setup-instructions)
 - [Running the Application](#running-the-application)
 - [Implemented Features](#implemented-features)
-- [Testing](#testing)
 - [Deployment](#deployment)
 - [Resources](#resources)
 - [License](#license)
@@ -106,35 +105,6 @@ This repository contains a fullstack Pokémon application, with a [NestJS](https
 
 ---
 
-## Testing
-
-### Backend
-
-- **Unit tests:**
-    ```sh
-    npm run test
-    ```
-- **End-to-end tests:**
-    ```sh
-    npm run test:e2e
-    ```
-- **Test coverage:**
-    ```sh
-    npm run test:cov
-    ```
-
-### Frontend
-
-- **Unit tests:**
-    ```sh
-    ng test
-    ```
-- **End-to-end tests:**
-    ```sh
-    ng e2e
-    ```
-
----
 
 ## Deployment
 
