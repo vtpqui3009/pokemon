@@ -1,0 +1,63 @@
+<header class="bg-white text-primary-foreground shadow-lg sticky top-0 z-99">
+  <div class="container mx-auto px-4 py-3">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <a routerLink="/">
+          <h1 class="text-xl font-bold">PokéDex</h1>
+        </a>
+      </div>
+
+      <nav class="flex gap-4">
+        @for (item of navItems; track item.path) {
+        <a
+          [routerLink]="item.path"
+          class="flex items-center space-x-2 p-2 border-b-2 transition-colors text-muted-foreground"
+          routerLinkActive="border-b-2 border-blue-500 text-blue-500"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <span>{{ item.label }}</span>
+        </a>
+        }
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center space-x-4">
+        <div
+          class="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600"
+        >
+          <svg
+            class="absolute w-10 h-10 text-gray-400 -left-1"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button class="md:hidden">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

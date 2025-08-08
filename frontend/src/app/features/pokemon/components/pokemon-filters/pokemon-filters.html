@@ -1,0 +1,221 @@
+<div class="space-y-4">
+  <div class="flex space-between">
+    <div class="flex-1">
+      <div class="relative max-w-md">
+        <div
+          class="absolute cursor-pointer inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+        </div>
+        <input
+          [formControl]="searchControl"
+          type="search"
+          id="default-search"
+          class="block w-full p-2.5 ps-10 text-sm text-gray-400 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Search Pokémon..."
+          required
+        />
+      </div>
+    </div>
+
+    <div class="flex gap-2">
+      <div>
+        <button
+          (click)="toggleAdvanced()"
+          class="font-medium rounded-lg text-sm px-4 py-2 border-gray-300 border cursor-pointer"
+        >
+          Advanced
+        </button>
+        @if(isAdvanced()){
+        <div class="fixed inset-0 z-50 flex">
+          <div class="fixed inset-0 bg-black/50 transition-opacity"></div>
+
+          <div
+            class="fixed right-0 top-16 h-full w-[400px] sm:w-[540px] bg-white border-l border-border shadow-lg transform transition-transform duration-300 ease-in-out"
+          >
+            <div
+              class="flex items-center justify-between p-6 border-b border-border"
+            >
+              <h2 class="text-lg font-semibold text-foreground">Filter</h2>
+              <button
+                (click)="toggleAdvanced()"
+                class="cursor-pointer rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                <span class="sr-only">Close</span>
+              </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto h-full">
+              <div class="space-y-6 pb-20">
+                <div class="space-y-4">
+                  <Label class="text-sm font-medium text-foreground"
+                    >Speed Range</Label
+                  >
+                  <div class="space-y-4">
+                    <div class="flex gap-4">
+                      <div class="flex-1">
+                        <Label class="text-xs text-muted-foreground"
+                          >From</Label
+                        >
+                        <input
+                          type="number"
+                          [value]="minSpeed"
+                          (input)="
+                            setSpeedMin($any($event.target).valueAsNumber)
+                          "
+                          class="mt-1 w-full px-3 py-2 border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 rounded-md"
+                          min="{0}"
+                          max="{200}"
+                        />
+                      </div>
+                      <div class="flex-1">
+                        <Label class="text-xs text-muted-foreground">To</Label>
+                        <input
+                          type="number"
+                          [value]="maxSpeed"
+                          (input)="
+                            setSpeedMax($any($event.target).valueAsNumber)
+                          "
+                          value="{filters.speedMax}"
+                          class="mt-1 w-full px-3 py-2 border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 rounded-md"
+                          min="{0}"
+                          max="{200}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <Label class="text-sm font-medium text-foreground"
+                    >Type</Label
+                  >
+                  <div class="grid grid-cols-2 gap-2">
+                    <button
+                      (click)="setType('')"
+                      [ngClass]="{
+                      'bg-blue-600': selectedType.length === 0,
+                      'text-white': selectedType.length === 0,
+                     }"
+                      class="cursor-pointer border border-gray-200 inline-flex items-center justify-start rounded-md text-xs font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 px-3 py-2 capitalize"
+                    >
+                      All Types
+                    </button>
+                    @for(type of types; track type){
+                    <button
+                      (click)="setType(type)"
+                      [ngClass]="{
+                      'bg-blue-600': selectedType === type,
+                      'text-white': selectedType === type,
+                     }"
+                      class="cursor-pointer border border-gray-200 inline-flex items-center justify-start rounded-md text-xs font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 px-3 py-2 capitalize"
+                    >
+                      {{ type }}
+                    </button>
+                    }
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <Label class="text-sm font-medium text-foreground"
+                    >Status</Label
+                  >
+                  <div class="space-y-2">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        (change)="setLegendary('all')"
+                        name="all"
+                        class="w-4 h-4 text-primary border-2 border-primary focus:ring-primary focus:ring-2"
+                      />
+                      <span class="text-sm text-foreground">All</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="regular"
+                        (change)="setLegendary('regular')"
+                        class="w-4 h-4 text-primary border-2 border-primary focus:ring-primary focus:ring-2"
+                      />
+                      <span class="text-sm text-foreground">Regular</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="legendary"
+                        (change)="setLegendary('legendary')"
+                        class="w-4 h-4 text-primary border-2 border-primary focus:ring-primary focus:ring-2"
+                      />
+                      <span class="text-sm text-foreground">Legendary</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="flex gap-2 pt-4">
+                  <button
+                    (click)="resetFilters()"
+                    class="w-1/2 cursor-pointer border border-gray-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    (click)="showResults()"
+                    class="w-1/2 cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                  >
+                    Show Results
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      <div>
+        <button
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer"
+        >
+          <label for="file-upload">
+            <span>Import CSV</span>
+            <input
+              (change)="handleImportCsvFile($event)"
+              id="file-upload"
+              type="file"
+              name="file-upload"
+              class="sr-only"
+            />
+          </label>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="container mx-auto px-4 py-3">
+  <div class="relative bg-card rounded-xl overflow-hidden shadow-lg">
+    <!-- Video -->
+    <div class="relative h-64 md:h-80">
+      <img
+        [src]="videos()[currentSlide]?.thumbnail"
+        [alt]="videos()[currentSlide]?.title"
+        (error)="onImgError($event)"
+        class="w-full h-full object-cover"
+      />
+
+      <!-- Overlay -->
+      <div
+        class="absolute inset-0 bg-black/40 flex items-center justify-center"
+      >
+        <a
+          [routerLink]="videos()[currentSlide]?.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full p-4 transition-colors"
+        >
+          <!-- Inline Play Icon -->
+          <svg
+            class="h-8 w-8 ml-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14.752 11.168l-6.518-3.894A1 1 0 007 8.118v7.764a1 1 0 001.234.97l6.518-1.82a1 1 0 00.518-.97v-1.824a1 1 0 00-.518-.97z"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <button
+        (click)="prevSlide()"
+        class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
+      >
+        <!-- ChevronLeft Icon -->
+        <svg
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
+      <button
+        (click)="nextSlide()"
+        class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
+      >
+        <!-- ChevronRight Icon -->
+        <svg
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Video Title -->
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-card-foreground">
+        {{ videos()[currentSlide]?.title }}
+      </h3>
+    </div>
+
+    <div
+      class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2"
+    >
+      @for (video of videos(); track video.id; let i = $index) {
+      <button
+        (click)="goToSlide(i)"
+        class="w-2 h-2 rounded-full transition-colors"
+        [ngClass]="{
+          'bg-accent': i === currentSlide,
+          'bg-white/50': i !== currentSlide
+        }"
+      ></button>
+      }
+    </div>
+  </div>
+</div>

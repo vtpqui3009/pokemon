@@ -1,0 +1,14 @@
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-auth-layout',
+  standalone: true,
+  imports: [RouterModule],
+  template: `
+    <section class="auth-bg">
+      <router-outlet />
+    </section>
+  `,
+})
+export class AuthLayoutComponent {}

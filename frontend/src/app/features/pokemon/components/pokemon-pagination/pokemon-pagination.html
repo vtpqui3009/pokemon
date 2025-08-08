@@ -1,0 +1,41 @@
+<nav class="flex items-center justify-between mt-4">
+  <div class="flex items-center">
+    <label class="text-sm text-gray-700">
+      Items per page:
+      <select
+        class="ml-2 border rounded px-2 py-1 text-sm"
+        (change)="onPageSizeChange($event)"
+        [value]="pageSize()"
+      >
+        @for (size of pageSizes; track size) {
+        <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  <div class="text-sm text-gray-600">
+    Showing
+    {{ (page() - 1) * pageSize() + 1 }}–
+    {{ Math.min(page() * pageSize(), totalResults()) }}
+    of {{ totalResults() }} results
+  </div>
+
+  <div class="flex items-center space-x-2">
+    <button
+      class="px-3 py-1 rounded border hover:bg-gray-100"
+      [disabled]="page() === 1"
+      (click)="prevPage()"
+    >
+      Previous
+    </button>
+
+    <button
+      class="px-3 py-1 rounded border hover:bg-gray-100"
+      [disabled]="page() === totalPages"
+      (click)="nextPage()"
+    >
+      Next
+    </button>
+  </div>
+</nav>

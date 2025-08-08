@@ -1,0 +1,47 @@
+<div
+  class="bg-white rounded-2xl shadow hover:shadow-lg p-4 transition cursor-pointer flex flex-col items-center space-y-2 relative"
+  (click)="onPokemonClick()"
+>
+  <img
+    [src]="pokemon()?.imageUrl"
+    [alt]="pokemon()?.name"
+    class="w-20 h-20 object-contain"
+  />
+  <div class="text-center">
+    <div class="font-semibold">{{ pokemon()?.name }}</div>
+    <div class="text-xs text-gray-500">
+      #{{ pokemon()?.id | number : "3.0" }}
+    </div>
+  </div>
+  <div class="flex gap-1 flex-wrap justify-center">
+    <span
+      class="text-xs rounded-full px-2 py-0.5 font-semibold"
+      [ngClass]="typeClass(pokemon()?.type1)"
+    >
+      {{ pokemon()?.type1 }}
+    </span>
+  </div>
+  <div class="text-xs text-gray-600">Speed: {{ pokemon()?.speed }}</div>
+  <button
+    class="absolute top-2 right-2 cursor-pointer"
+    (click)="onToggleFavorite(); $event.stopPropagation()"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      [ngClass]="
+        isFavorite() ? 'fill-red-500 text-red-500' : 'text-muted-foreground'
+      "
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+          2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81
+          4.5 2.09C13.09 3.81 14.76 3 16.5 3
+          19.58 3 22 5.42 22 8.5c0
+          3.78-3.4 6.86-8.55 11.54L12 21.35z"
+      />
+    </svg>
+  </button>
+</div>
